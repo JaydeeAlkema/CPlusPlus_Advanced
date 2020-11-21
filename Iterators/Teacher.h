@@ -1,15 +1,18 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 class Teacher
 {
 public:
 	Teacher(std::string name);
-	~Teacher();
+	virtual ~Teacher();
 
 	const std::string getName();
 
+	friend bool operator==(const Teacher& lhs, const Teacher& rhs);
+
 private:
-	std::string name;
+	std::string name = "";
 };

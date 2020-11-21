@@ -6,98 +6,75 @@ Module::Module(std::string name, int ec)
 	this->ecWorth = ec;
 }
 
-Module::Module(Teacher teacherToAdd)
-{
-	moduleTeachers.push_back(teacherToAdd);
-}
-
-Module::Module(Student studentToAdd)
-{
-	moduleStudents.push_back(studentToAdd);
-}
-
 Module::~Module()
 {
 }
 
-#pragma region Operator Overloads - TEACHER
-Module Module::operator+(const Teacher& teacher) const
+void Module::addStudent(Student& student)
 {
-	return Module(teacher);
+	student.addModule(*this);
+	this->moduleStudents.push_back(student);
 }
 
-Module Module::operator-(const Teacher& teacher) const
+void Module::removeStudent(Student& student)
 {
-	Module module = *this;
-
-	auto it = std::find(module.moduleTeachers.begin(), module.moduleTeachers.end(), teacher);
-	int index = 0;
-
-	if (it != module.moduleTeachers.end())
-	{
-		index = it - module.moduleTeachers.begin();
-	}
-
-	module.moduleTeachers.erase(it);
-
-	return module;
+	student.removeModule(*this);
+	this->moduleStudents.remove(student);
 }
 
-Module& Module::operator+=(const Teacher& teacher)
+void Module::addTeacher(Teacher& teacher)
 {
 	this->moduleTeachers.push_back(teacher);
-	return *this;
 }
-#pragma endregion
 
-#pragma region Operator Overloads - STUDENT
-Module Module::operator+(const Student& student) const
+void Module::removeTeacher(Teacher& teacher)
 {
-	return Module(student);
+	this->moduleTeachers.remove(teacher);
 }
 
-Module Module::operator-(const Student& student) const
+int Module::getECWorth()
 {
-	Module module = *this;
-
-	std::vector<Student>::iterator it = std::find(module.moduleStudents.begin(), module.moduleStudents.end(), student);
-	int index = 0;
-
-	if (it != module.moduleStudents.end())
-	{
-		index = it - module.moduleStudents.begin();
-	}
-
-	module.moduleStudents.erase(it);
-
-	return module;
+	return this->ecWorth;
 }
 
-Module& Module::operator+=(const Student& student)
+void Module::changeECWorth(int EC)
 {
-	this->moduleStudents.push_back(student);
-	return *this;
+	this->ecWorth = EC;
 }
-#pragma endregion
 
 std::ostream& operator<<(std::ostream& os, const Module& module)
 {
-	std::vector<Teacher> teachers = module.moduleTeachers;
-	std::vector<Student> students = module.moduleStudents;
+	std::list<Teacher> teachers = module.moduleTeachers;
+	std::list<Student> students = module.moduleStudents;
 
-	os << "\nModule Teachers= " << std::endl;
-	for (std::vector<Teacher>::iterator it = teachers.begin(); it != teachers.end(); it++)
+	int teacherIndex = 1;
+	int studentIndex = 1;
+
+	std::cout << "MODULE: " << module.name << " | " << "EC Worth: " << module.ecWorth << std::endl;
+	os << "\nModule Teachers: " << std::endl;
+	for (std::list<Teacher>::iterator it = teachers.begin(); it != teachers.end(); it++)
 	{
-		Teacher t = *it;
-		os << "Teacher= " << t.getName() << std::endl;
+		Teacher teacher = *it;
+		os << teacherIndex << ". " << teacher.getName() << std::endl;
+
+		teacherIndex++;
 	}
 
-	os << "\nModule Students= " << std::endl;
-	for (std::vector<Student>::iterator it = students.begin(); it != students.end(); it++)
+	os << "\nModule Students: " << std::endl;
+	for (std::list<Student>::iterator it = students.begin(); it != students.end(); it++)
 	{
-		Student st = *it;
-		os << "Student= " << st.getName() << std::endl;
+		Student student = *it;
+		os << studentIndex << ". " << student.getName() << ", EC: " << student.getTotalEC() << std::endl;
+
+		studentIndex++;
 	}
+
+	std::cout << "#####################################################" << std::endl;
 
 	return os;
+}
+
+bool operator==(const Module& lhs, const Module& rhs)
+{
+	return lhs.name == rhs.name;
 }

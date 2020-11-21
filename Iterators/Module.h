@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 
 #include "Teacher.h"
 #include "Student.h"
@@ -11,28 +11,24 @@ class Module
 {
 public:
 	Module(std::string name, int ec);
-	Module(Teacher teacherToAdd);
-	Module(Student studentToAdd);
 	virtual ~Module();
 
-	Module operator+(const Teacher& teacher) const;
-	Module operator-(const Teacher& teacher) const;
-	Module& operator+=(const Teacher& teacher);
+	void addStudent(Student& student);
+	void removeStudent(Student& student);
 
-	Module operator+(const Student& student) const;
-	Module operator-(const Student& student) const;
-	Module& operator+=(const Student& student);
+	void addTeacher(Teacher& teacher);
+	void removeTeacher(Teacher& teacher);
+
+	int getECWorth();
+	void changeECWorth(int EC);
 
 	friend std::ostream& operator<<(std::ostream& os, const Module& module);
-
-	//TODO: 
-	//1. Add functionality to instantly add a whole vector of teachers and/or students at once.
-	//2. Add functionality to remove a Teacher or Student via operator-= overload.
+	friend bool operator==(const Module& lhs, const Module& rhs);
 
 private:
-	std::string name;
-	int ecWorth;
+	std::string name = "";
+	int ecWorth = 0;
 
-	std::vector<Teacher> moduleTeachers;
-	std::vector<Student> moduleStudents;
+	std::list<Teacher> moduleTeachers;
+	std::list<Student> moduleStudents;
 };
