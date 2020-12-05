@@ -13,3 +13,8 @@ int Cell::getID()
 {
 	return this->id;
 }
+
+bool Cell::isAlive()
+{
+	return this->alive;
+}

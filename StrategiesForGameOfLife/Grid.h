@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <list>
 #include <iostream>
 
 #include "Cell.h"
@@ -12,11 +11,8 @@ public:
 	Grid();
 	virtual ~Grid();
 
-	void initializeGrid();
+	std::vector<Cell> getNeighbours(int posX, int posY);
 
 private:
-	int width = 25;
-	int height = 25;
-
-	std::list<Cell> cells;
+	Cell cells[25][25];
 };

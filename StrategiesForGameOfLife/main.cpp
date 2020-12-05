@@ -6,6 +6,5 @@ int main()
 {
 	Grid grid = Grid();
 
-	grid.initializeGrid();
 
 }
