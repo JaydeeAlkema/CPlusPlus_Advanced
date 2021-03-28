@@ -1,3 +1,4 @@
+// https://www.youtube.com/watch?v=MKXGLBbcYzQ
 #include <windows.h>//get keyboard input
 #include <iostream>
 #include <time.h>// seed random
@@ -6,7 +7,6 @@
 
 int main()
 {
-
 	int combos[16] = { 1,1,-1,1,1,-1,-1,-1,1,0,0,1,-1,0,0,-1 };
 	//1d array with enough space for 25x25 grid
 	char buffer[25 * 25] = { '#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.',
